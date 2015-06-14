@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Netguru Compass</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="mapInfo">Hold on map to set destination</string>
+    <string name="map">Map</string>
+    <string name="buttonText">Show me where to go</string>
+</resources>
