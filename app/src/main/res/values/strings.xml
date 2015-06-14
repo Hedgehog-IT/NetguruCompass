@@ -6,4 +6,7 @@
     <string name="mapInfo">Hold on map to set destination</string>
     <string name="map">Map</string>
     <string name="buttonText">Show me where to go</string>
+    <string name="alert">App needs GPS to work properly, do you want to turn it now?</string>
+    <string name="ok">Ok</string>
+    <string name="no_thanks">No, thanks</string>
 </resources>

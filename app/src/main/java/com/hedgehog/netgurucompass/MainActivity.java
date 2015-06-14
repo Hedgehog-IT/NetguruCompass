@@ -1,25 +1,20 @@
 package com.hedgehog.netgurucompass;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Matrix;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Address;
 import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +22,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,40 +34,34 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
-import java.util.List;
-
 public class MainActivity extends ActionBarActivity implements SensorEventListener, LocationListener, OnMapReadyCallback {
 
-    private ImageView compass_rose;
     private ImageView arrow;
     private ImageView direction;
     private EditText lat;
     private EditText lng;
-    private LocationManager mLocationManager;
     private SensorManager mSensorManager;
     private Sensor mSensor;
-    private Button showDirectionButton;
-    private Button mapButton;
     private Location currentLoc;
     private Location destination;
     private GoogleMap map;
     private View mapFragment;
     private boolean doubleBackToExitPressedOnce;
+    private LocationManager mLocationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        compass_rose = (ImageView) findViewById(R.id.compass_rose);
+        ImageView compass_rose = (ImageView) findViewById(R.id.compass_rose);
         arrow = (ImageView) findViewById(R.id.compass_arrow);
         direction = (ImageView) findViewById(R.id.direction);
         lat = (EditText) findViewById(R.id.lat);
         lng = (EditText) findViewById(R.id.lng);
-        showDirectionButton = (Button) findViewById(R.id.showDirectionButton);
-        mapButton = (Button) findViewById(R.id.mapButton);
+        Button showDirectionButton = (Button) findViewById(R.id.showDirectionButton);
+        Button mapButton = (Button) findViewById(R.id.mapButton);
         mapFragment = findViewById(R.id.mapFragment);
-
+        checkGPS();
         destination = new Location(LocationManager.PASSIVE_PROVIDER);
 //        destination.setLatitude(Double.parseDouble(lat.getText().toString()));
 //        destination.setLongitude(Double.parseDouble(lng.getText().toString()));
@@ -90,11 +78,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
         showDirectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
+                try {
                     destination.setLatitude(Double.parseDouble(lat.getText().toString()));
                     destination.setLongitude(Double.parseDouble(lng.getText().toString()));
-                    direction.setVisibility(View.VISIBLE);
-                }catch (Exception e){
+                    if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                        direction.setVisibility(View.VISIBLE);
+                    }
+                    checkGPS();
+                } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Something wrong with data...", Toast.LENGTH_LONG).show();
                 }
 
@@ -112,6 +103,28 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
         SupportMapFragment fragment = new SupportMapFragment();
         getSupportFragmentManager().beginTransaction() .add(R.id.map, fragment).commit();
         fragment.getMapAsync(this);
+    }
+
+    private void checkGPS() {
+        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.alert)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton(R.string.no_thanks, new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            dialog.cancel();
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+        };
     }
 
     @Override
@@ -132,7 +145,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
         arrow.setRotation(-event.values[0]);
-        float bearTo = (currentLoc.bearingTo(destination));
+        float bearTo = 0;
+        if(currentLoc != null){
+            bearTo = (currentLoc.bearingTo(destination));
+        }
         direction.setRotation(bearTo - event.values[0]);
     }
 
@@ -224,7 +240,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
         destination.setLatitude(point.latitude);
         lat.setText(point.latitude + "");
         lng.setText(point.longitude + "");
-        direction.setVisibility(View.VISIBLE);
+        if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            direction.setVisibility(View.VISIBLE);
+        }
+        checkGPS();
     }
 
     @Override
