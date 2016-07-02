@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Kompas</string>
+
+    <string name="mapInfo">Przytrzymaj punkt na mapie żeby wyznaczyć kierunek</string>
+    <string name="map">Znajdź cel na mapie</string>
+    <string name="buttonText">Aktualizuj kierunek</string>
+    <string name="alert">Aplikacja potrzebuje dostępu do lokalizacji aby działać poprawnie, czy chcesz ją włączyć?</string>
+    <string name="ok">Ok</string>
+    <string name="no_thanks">Nie, dzięki</string>
+    <string name="longitude">Długość</string>
+    <string name="latitude">Szerokość</string>
+    <string name="exit_conf">Wciśnij ponownie, żeby wyjść.</string>
+    <string name="wrong_data">Nieprawidłowe dane z GPS</string>
+</resources>

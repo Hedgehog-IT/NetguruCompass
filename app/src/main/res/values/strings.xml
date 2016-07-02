@@ -1,12 +1,14 @@
 <resources>
-    <string name="app_name">Netguru Compass</string>
+    <string name="app_name">Compass</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="mapInfo">Hold on map to set destination</string>
-    <string name="map">Map</string>
-    <string name="buttonText">Show me where to go</string>
+    <string name="map">Find destination on map</string>
+    <string name="buttonText">Update direction</string>
     <string name="alert">App needs GPS to work properly, do you want to turn it now?</string>
     <string name="ok">Ok</string>
     <string name="no_thanks">No, thanks</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="wrong_data">Something wrong with location data…</string>
+    <string name="exit_conf">Press back again to quit</string>
 </resources>

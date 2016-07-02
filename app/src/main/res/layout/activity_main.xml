@@ -1,106 +1,67 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_vertical_margin">
 
-        <RelativeLayout
+        <com.hedgehog.compass.CompassView
+            android:id="@+id/compass_view"
             android:layout_width="match_parent"
-            android:layout_height="300dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:src="@mipmap/compass_rose"
-                android:id="@+id/compass_rose"
-                android:layout_gravity="center"/>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:src="@mipmap/arrow"
-                android:id="@+id/compass_arrow"
-                android:layout_gravity="center"/>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:src="@mipmap/direction"
-                android:id="@+id/direction"
-                android:layout_gravity="center"
-                android:visibility="gone"/>
-        </RelativeLayout>
+            android:layout_height="wrap_content" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:id="@+id/lat"
-                android:layout_gravity="center_horizontal"
-                android:hint="Latitude"
-                app:met_floatingLabel="normal"
-                android:layout_weight="1"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/lat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:id="@+id/lng"
                 android:layout_gravity="center_horizontal"
-                android:hint="Longitude"
-                app:met_floatingLabel="normal"
-                android:layout_weight="1" />
+                android:layout_marginRight="@dimen/input_margin"
+                android:layout_weight="1"
+                android:hint="@string/latitude"
+                android:inputType="numberDecimal"
+                app:met_floatingLabel="normal" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/lng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/input_margin"
+                android:layout_weight="1"
+                android:hint="@string/longitude"
+                android:inputType="numberDecimal"
+                app:met_floatingLabel="normal" />
         </LinearLayout>
 
         <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/buttonText"
             android:id="@+id/showDirectionButton"
-            android:layout_gravity="center_vertical" />
-        <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/map"
-            android:id="@+id/mapButton"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/mapFragment">
-        <fragment
-            class="com.google.android.gms.maps.MapFragment"
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            tools:visibility="visible"/>
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:text="@string/mapInfo"
-            android:gravity="center"
-            android:background="#a0ffffff" />
-    </RelativeLayout>
+            android:layout_gravity="center_vertical"
+            android:text="@string/buttonText" />
 
+        <Button
+            android:id="@+id/mapButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/map" />
+    </LinearLayout>
 </RelativeLayout>
