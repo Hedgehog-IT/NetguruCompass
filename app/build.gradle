@@ -1,23 +1,42 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 def versionMajor = 0
 def versionMinor = 1
-def versionPatch = 0
+def versionPatch = 1
 def versionBuild = 0
 
 android {
+
     signingConfigs {
-        config {
-            keyAlias 'asvid'
-            keyPassword 'Rnk2ig&yj'
-            storeFile file('/home/adam/Dokumenty/keystore.jks')
-            storePassword 'Rnk2ig&yj'
-        }
+        release
     }
+    def props = new Properties()
+
+    props.load(new FileInputStream(rootProject.file("signing.conf")))
+    android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
+    android.signingConfigs.release.storePassword props.keyStorePassword
+    android.signingConfigs.release.keyAlias props.keyAlias
+    android.signingConfigs.release.keyPassword props.keyAliasPassword
+
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
     defaultConfig {
-        applicationId "com.hedgehog.netgurucompass"
+        applicationId "com.hedgehog.compass"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
@@ -27,6 +46,8 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            zipAlignEnabled true
         }
     }
 }
@@ -36,4 +57,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.google.android.gms:play-services:7.3.0'
     compile 'com.rengwuxian.materialedittext:library:2.0.3'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.0@aar') {
+        transitive = true;
+    }
 }

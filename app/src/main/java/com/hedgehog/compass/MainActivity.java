@@ -1,5 +1,6 @@
 package com.hedgehog.compass;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.maps.model.LatLng;
 
 import android.app.AlertDialog;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -28,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         setViews();
         //        checkGPS();
